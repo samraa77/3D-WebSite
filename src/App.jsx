@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import './App.css'
+import { useNavigate } from 'react-router-dom'
 
 function App() {
   const mountRef = useRef(null)
+  const clickAudioRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const scene = new THREE.Scene()
@@ -38,7 +41,6 @@ function App() {
     const stars = new THREE.Points(starGeometry, starMaterial)
     scene.add(stars)
 
-    // Animation
     const animate = () => {
       requestAnimationFrame(animate)
       stars.rotation.y += 0.0005
@@ -53,9 +55,29 @@ function App() {
     }
   }, [])
 
+  const handleStart = () => {
+  const audio = clickAudioRef.current
+  if (audio) {
+    audio.currentTime = 0 // باش يبدأ من الأول ديما
+    audio.play().then(() => {
+      navigate('/game') // التنقل بعد التشغيل
+    }).catch((e) => {
+      console.warn('Erreur lecture son bouton:', e)
+      navigate('/game') // حتى إلا فشل الصوت، نكملو التنقل
+    })
+  } else {
+    navigate('/game')
+  }
+}
+
   return (
     <div className="canvas-container" ref={mountRef}>
-      <div className="hero-text">HELLO</div>
+      <audio ref={clickAudioRef}>
+<source src="/click.wav" type="audio/wav" />
+        Your browser does not support the audio element.
+      </audio>
+      <h1 className="hero-text">HELLO</h1>
+      <button className="start-button" onClick={handleStart}>START</button>
     </div>
   )
 }
