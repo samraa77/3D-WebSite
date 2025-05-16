@@ -1,0 +1,28 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: black;
+}
+
+.canvas-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-text {
+  position: absolute;
+  font-size: 6rem;
+  font-weight: bold;
+  font-family: 'Arial Black', sans-serif;
+  color: white;
+  text-shadow: 0 0 50px #00ccff;
+  pointer-events: none;
+  user-select: none;
+}
